@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "505670471592",
+    "firebase_url": "https://simplemessagingapp-e3147.firebaseio.com",
+    "project_id": "simplemessagingapp-e3147",
+    "storage_bucket": "simplemessagingapp-e3147.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505670471592:android:c0b2c4f769b6f50090979d",
+        "android_client_info": {
+          "package_name": "edu.uga.cs.simplegroupmessaging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505670471592-me03lhi33nr0768b6m2d3givi6mt4f7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA31uBlDqrzK5ASs3eN8HmZ7EJe4vuLvwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505670471592-me03lhi33nr0768b6m2d3givi6mt4f7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
