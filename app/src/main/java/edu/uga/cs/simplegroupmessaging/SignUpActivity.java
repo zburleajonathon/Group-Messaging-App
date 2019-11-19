@@ -51,7 +51,11 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "The password provided is too short.", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    email.setText("");
+                    password.setText("");
                     signUp(emailText, passText);
+                    Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -100,7 +104,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                                        System.out.println("HashMap set task is successful.");
                                         startActivity(intent);
                                         finish();
                                     }
