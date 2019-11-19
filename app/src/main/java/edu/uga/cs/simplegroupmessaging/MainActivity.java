@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     password.setText("");
                     signIn(emailText, passText);
 
-                    Intent intent = new Intent(MainActivity.this, TestActivity.class);
+                    Intent intent = new Intent(MainActivity.this, MessagingActivity.class);
                     startActivity(intent);
                 }
             }
