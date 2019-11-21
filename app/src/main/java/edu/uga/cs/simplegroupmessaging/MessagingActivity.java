@@ -8,11 +8,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.FileOutputStream;
+import java.util.List;
 
 public class MessagingActivity extends AppCompatActivity {
     public static final String LOG_FILENAME = "Chat_Log.txt";
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference dbRef = database.getReference("message");
+
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter recyclerAdapter;
+
+    private List<String> messageItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,18 +34,26 @@ public class MessagingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
 
+        recyclerView = findViewById(R.id.recyclerView);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerAdapter = new MessagingRecyclerAdapter(messageItems);
+        recyclerView.setAdapter(recyclerAdapter);
+
         // Handle Send Button
         Button sendButton = findViewById(R.id.ButtonSendView);
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                logChatMessage();
+                //logChatMessage();
                 EditText chatText = findViewById(R.id.EditTextView);
                 chatText.setText(null);
             }
         });
     }
 
-    private void logChatMessage() {
+    /*private void logChatMessage() {
         new Thread(){
             public void run(){
                 EditText chatText = findViewById(R.id.EditTextView);
@@ -64,5 +86,5 @@ public class MessagingActivity extends AppCompatActivity {
 
     private void displayChatMessage() {
 
-    }
+    }*/
 }

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,9 +24,12 @@ import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    DatabaseReference dbRef;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference dbRef = database.getReference("message");
     EditText email, password;
     Button signUpButton;
+    private String emailText;
+    private String passText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailText = email.getText().toString();
-                String passText = password.getText().toString();
+                emailText = email.getText().toString();
+                passText = password.getText().toString();
 
                 if(TextUtils.isEmpty(emailText) || TextUtils.isEmpty(passText)){
                     Toast.makeText(SignUpActivity.this, "Either the email or password fields are empty.", Toast.LENGTH_SHORT).show();
@@ -51,11 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "The password provided is too short.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    email.setText("");
-                    password.setText("");
-                    signUp(emailText, passText);
-                    Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-                    startActivity(intent);
+                    signIn(emailText,passText);
                 }
             }
         });
@@ -96,7 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                             //Create HashMap to store info into database with a single call
                             HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put("id", userID);
+                            hashMap.put("userID", userID);
                             hashMap.put("username", email);
 
                             //add to database
@@ -111,6 +111,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                            Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                            startActivity(intent);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -126,4 +128,23 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    public void signIn(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in successful, let user know they already have an account
+                            Toast.makeText(SignUpActivity.this, "You already have an account. Go to Sign In", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                            startActivity(intent);
+                        } else {
+                            signUp(emailText, passText);
+                            Toast.makeText(SignUpActivity.this, "Thank you! Creating your account now!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
+    }
 }
