@@ -16,12 +16,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 
 public class MainActivity extends AppCompatActivity {
     Button signInButton, signUpButton;
     private FirebaseAuth mAuth;
-    DatabaseReference dbRef;
     EditText email, password;
 
     @Override
@@ -56,12 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "The password provided is too short.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    email.setText("");
-                    password.setText("");
                     signIn(emailText, passText);
-
-                    Intent intent = new Intent(MainActivity.this, TestActivity.class);
-                    startActivity(intent);
                 }
             }
         });
@@ -85,9 +78,11 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            Intent intent = new Intent(MainActivity.this, MessagingActivity.class);
+                            startActivity(intent);
                         } else {
 
-                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "User does not exist. Create an account!", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
 
