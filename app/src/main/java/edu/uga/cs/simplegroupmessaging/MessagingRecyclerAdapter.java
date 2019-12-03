@@ -1,5 +1,6 @@
 package edu.uga.cs.simplegroupmessaging;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +38,13 @@ public class MessagingRecyclerAdapter extends RecyclerView.Adapter<MessagingRecy
         }
     }
 
-    public MessagingRecyclerAdapter()
+    public MessagingRecyclerAdapter(String chatID)
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String email = user.getEmail();
 
         dbRef = FirebaseDatabase.getInstance().getReference("Messages");
+
 
         //read from database to get chats
         ValueEventListener memberListener = new ValueEventListener() {
@@ -50,6 +52,7 @@ public class MessagingRecyclerAdapter extends RecyclerView.Adapter<MessagingRecy
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Messages could be empty if the chat is new
                 try {
+
                     data = dataSnapshot.getValue().toString();
                     System.out.println("Messages Data: " + data);
                     setMessagesName(messageChecker(data, email));
