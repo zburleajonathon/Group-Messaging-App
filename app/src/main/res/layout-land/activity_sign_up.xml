@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +11,7 @@
         android:id="@+id/signUpTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log In"
+        android:text="Please provide the following to create your account and get started connecting with the world."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,10 +25,10 @@
         android:text="Email: "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintHorizontal_bias="0.265"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpTextView"
-        app:layout_constraintVertical_bias="0.18" />
+        app:layout_constraintVertical_bias="0.161" />
 
     <TextView
         android:id="@+id/signUpPassTextView"
@@ -36,10 +37,10 @@
         android:text="Password: "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.116"
+        app:layout_constraintHorizontal_bias="0.276"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpEmailTextView"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintVertical_bias="0.276" />
 
     <EditText
         android:id="@+id/signUpPassEditText"
@@ -49,10 +50,10 @@
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toEndOf="@+id/signUpPassTextView"
         app:layout_constraintTop_toBottomOf="@+id/signUpEmailEditText"
-        app:layout_constraintVertical_bias="0.066" />
+        app:layout_constraintVertical_bias="0.207" />
 
     <EditText
         android:id="@+id/signUpEmailEditText"
@@ -62,21 +63,21 @@
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintHorizontal_bias="0.152"
         app:layout_constraintStart_toEndOf="@+id/signUpEmailTextView"
         app:layout_constraintTop_toBottomOf="@+id/signUpTextView"
-        app:layout_constraintVertical_bias="0.145" />
+        app:layout_constraintVertical_bias="0.137" />
 
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="Create Account!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpPassEditText"
-        app:layout_constraintVertical_bias="0.178" />
+        app:layout_constraintVertical_bias="0.355" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
