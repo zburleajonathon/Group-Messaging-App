@@ -1,5 +1,6 @@
 package edu.uga.cs.simplegroupmessaging;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -29,6 +30,8 @@ public class MessagingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        Intent intent = getIntent();
+        String chatID = intent.getStringExtra("chatID");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
 
@@ -36,9 +39,10 @@ public class MessagingActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        recyclerAdapter = new MessagingRecyclerAdapter();
+        
+        recyclerAdapter = new MessagingRecyclerAdapter(chatID);
         recyclerView.setAdapter(recyclerAdapter);
+
 
         // Handle Send Button
         Button sendButton = findViewById(R.id.ButtonSendView);
