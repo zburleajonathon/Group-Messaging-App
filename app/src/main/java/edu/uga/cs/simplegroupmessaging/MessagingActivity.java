@@ -27,8 +27,6 @@ public class MessagingActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter recyclerAdapter;
 
-    private List<String> messageItems;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,7 +39,7 @@ public class MessagingActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
+        
         recyclerAdapter = new MessagingRecyclerAdapter(chatID);
         recyclerView.setAdapter(recyclerAdapter);
 
