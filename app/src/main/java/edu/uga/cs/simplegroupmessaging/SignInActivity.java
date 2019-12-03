@@ -72,7 +72,7 @@ public class SignInActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            Intent intent = new Intent(SignInActivity.this, MessagingActivity.class);
+                            Intent intent = new Intent(SignInActivity.this, ChatsActivity.class);
                             startActivity(intent);
                         } else {
 
