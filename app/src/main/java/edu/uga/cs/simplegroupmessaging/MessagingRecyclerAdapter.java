@@ -23,8 +23,8 @@ public class MessagingRecyclerAdapter extends RecyclerView.Adapter<MessagingRecy
     DatabaseReference dbRef = database.getReference("message");
 
     private ArrayList<String> messagesList = new ArrayList<>();
+    private ArrayList<String> emails = new ArrayList<>();
     private String data;
-    private String message;
 
     // The adapter must have a ViewHolder class to "hold" one item to show.
     class MessagesHolder extends RecyclerView.ViewHolder {
@@ -38,26 +38,24 @@ public class MessagingRecyclerAdapter extends RecyclerView.Adapter<MessagingRecy
         }
     }
 
-    public MessagingRecyclerAdapter(String chatID)
+    public MessagingRecyclerAdapter(final String chatID)
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String email = user.getEmail();
 
-        dbRef = FirebaseDatabase.getInstance().getReference("Messages");
-
+        dbRef = FirebaseDatabase.getInstance().getReference("Messages").child(chatID);
 
         //read from database to get chats
         ValueEventListener memberListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Messages could be empty if the chat is new
-                try {
-
+                //try {
                     data = dataSnapshot.getValue().toString();
-                    System.out.println("Messages Data: " + data);
-                    setMessagesName(messageChecker(data, email));
-                }
-                catch(NullPointerException e) {}
+                    messagesList.clear();
+                    setMessages(data, email);
+                //}
+                //catch(NullPointerException e) {}
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -89,72 +87,19 @@ public class MessagingRecyclerAdapter extends RecyclerView.Adapter<MessagingRecy
         return messagesList.size();
     }
 
-    //method to check if the user is part of any chats
-    private ArrayList<String> messageChecker(String data, String email) {
-        ArrayList<String> chatIDs = new ArrayList<>();
-        String chatID = "";
-        int start = 1; //start after the {
-        for(int i = 0; i < data.length(); i++) {
-            if(data.charAt(i) == '=') {
-                chatID = data.substring(start, i); //save chatID just in case
-            }
-            if(data.charAt(i) == '[') {
-                start = i+1;
-                i++;
-            }
-            if(data.charAt(i) == ',') {
-                if(data.substring(start, i).equals(email)) {//check emails against the user
-                    chatIDs.add(chatID);
-                }
-                start = i+2; //to skip the space
-                i+=2;
-            }
-            if(data.charAt(i) == ']' && data.charAt(i+1) != '}') {
-                start = i+3; //to get to the next member list
-                i+=3;
-            }
-        }
-        return chatIDs;
-    }
-
-    //method to read the json chat name from the database
-    private void setMessagesName(ArrayList<String> chatIDs) {
-        //read from chats data base to get the title of the chats
-        for(int i =0; i < chatIDs.size(); i++) {
-            dbRef = FirebaseDatabase.getInstance().getReference("Chats").child(chatIDs.get(i));
-
-            //read from database to get chats
-            ValueEventListener chatListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    // Get Post object and use the values to update the UI
-                    data = dataSnapshot.getValue().toString();
-                    //System.out.println("Chat Data: " + data);
-                    message = getMessage(data);
-                    messagesList.add(message);
-                    notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            };
-            dbRef.addValueEventListener(chatListener);
-        }
-    }
-
-    //method to get the title of the chat
-    private String getMessage(String data) {
+    private void setMessages(String data, String email) {
         int start = 0;
-        String title = "";
         for(int i = 0; i < data.length(); i++) {
             if(data.charAt(i) == '=') {
                 start = i + 1;
             }
+            if(data.charAt(i) == ',' && data.charAt(i+2) != '{') {
+                messagesList.add(data.substring(start, i));
+                notifyDataSetChanged();
+            }
             if(data.charAt(i) == '}') {
-                title = data.substring(start, i);
+                emails.add(data.substring(start, i));
             }
         }
-        return title;
     }
 }

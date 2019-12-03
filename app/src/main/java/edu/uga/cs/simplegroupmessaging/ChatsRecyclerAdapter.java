@@ -25,6 +25,7 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
     DatabaseReference dbRef = database.getReference("message");
 
     private ArrayList<String> chats = new ArrayList<>();
+    private ArrayList<String> chatIDs = new ArrayList<>();
     private String data;
     private String title;
 
@@ -42,7 +43,7 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, MessagingActivity.class);
-                    intent.putExtra("chatID", chatView.getText().toString());
+                    intent.putExtra("chatID", chatView.getHint().toString());
                     context.startActivity(intent);
                 }
             });
@@ -60,10 +61,13 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
         ValueEventListener memberListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                data = dataSnapshot.getValue().toString();
-                System.out.println("Member Data: "+ data);
-                setChatName(chatChecker(data, email));
+                //Chats could be empty if the user is new
+                try {
+                    data = dataSnapshot.getValue().toString();
+                    System.out.println(data);
+                    setChatName(chatChecker(data, email));
+                }
+                catch(NullPointerException e) {}
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -86,8 +90,10 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
         }
         */
         String chatItem = chats.get(position);
+        String chatID = chatIDs.get(position);
 
         holder.chatView.setText(chatItem);
+        holder.chatView.setHint(chatID);
     }
 
     @Override
@@ -97,7 +103,6 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
 
     //method to check if the user is part of any chats
     private ArrayList<String> chatChecker(String data, String email) {
-        ArrayList<String> chatIDs = new ArrayList<>();
         String chatID = "";
         int start = 1; //start after the {
         for(int i = 0; i < data.length(); i++) {
@@ -115,9 +120,14 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
                 start = i+2; //to skip the space
                 i+=2;
             }
-            if(data.charAt(i) == ']' && data.charAt(i+1) != '}') {
-                start = i+3; //to get to the next member list
-                i+=3;
+            if(data.charAt(i) == ']') {
+                if(data.substring(start, i).equals(email)) {//check emails against the user
+                    chatIDs.add(chatID);
+                }
+                if (data.charAt(i) == ']' && data.charAt(i + 1) != '}') {
+                    start = i + 3; //to get to the next member list
+                    i += 3;
+                }
             }
         }
         return chatIDs;

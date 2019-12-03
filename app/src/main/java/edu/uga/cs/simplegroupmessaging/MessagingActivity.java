@@ -12,10 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
 
 public class MessagingActivity extends AppCompatActivity {
@@ -26,12 +29,16 @@ public class MessagingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter recyclerAdapter;
+    private EditText chatText;
+    private String chatID;
+
+    private static int messageID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Intent intent = getIntent();
-        String chatID = intent.getStringExtra("chatID");
+        chatID = intent.getStringExtra("chatID");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
 
@@ -39,54 +46,44 @@ public class MessagingActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        
+
         recyclerAdapter = new MessagingRecyclerAdapter(chatID);
         recyclerView.setAdapter(recyclerAdapter);
 
+        chatText = findViewById(R.id.EditTextView);
+
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MessagingActivity.this, ChatsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Handle Send Button
         Button sendButton = findViewById(R.id.ButtonSendView);
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //logChatMessage();
-                EditText chatText = findViewById(R.id.EditTextView);
+                sendMessage();
                 chatText.setText(null);
             }
         });
     }
 
-    /*private void logChatMessage() {
-        new Thread(){
-            public void run(){
-                EditText chatText = findViewById(R.id.EditTextView);
-                String strChat = chatText.getText().toString();
+    private void sendMessage() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String email = user.getEmail();
 
-                if (strChat.length() > 0) {
-                    strChat = strChat+"\n\n";
-                    try {
-                        // Open the file
-                        FileOutputStream fIO = openFileOutput(LOG_FILENAME, MODE_APPEND);
-                        // Write our chat string
-                        fIO.write(strChat.getBytes());
-                        // Close
-                        fIO.close();
-                    } catch (Exception e) {
-                        // Append failed. Handle error
-                    }
-                }
-            }
-        }.start();
+        dbRef = FirebaseDatabase.getInstance().getReference("Messages").child(chatID).child(Integer.toString(messageID));
+        messageID++;
+
+        //Create HashMap to store info into database with a single call
+        HashMap<String, String> messagesHashMap = new HashMap<>();
+        messagesHashMap.put("email", email);
+        messagesHashMap.put("message", chatText.getText().toString());
+
+        //add email and message to messages section of database
+        dbRef.setValue(messagesHashMap);
     }
-
-    private void uploadMessage() {
-        new Thread() {
-            public void run() {
-
-            }
-        }.start();
-    }
-
-    private void displayChatMessage() {
-
-    }*/
 }

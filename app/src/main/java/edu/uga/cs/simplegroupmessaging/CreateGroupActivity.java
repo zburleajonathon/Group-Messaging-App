@@ -113,9 +113,12 @@ public class CreateGroupActivity extends AppCompatActivity {
             }
         });
 
-        dbRef = FirebaseDatabase.getInstance().getReference("Messages");
+        dbRef = FirebaseDatabase.getInstance().getReference("Messages").child(chatID.toString()).child("0");
 
-        //add chatid to messages section
-        dbRef.setValue(chatID.toString());
+        HashMap<String, String> messagesHashMap = new HashMap<>();
+        messagesHashMap.put("email", "system");
+        messagesHashMap.put("message", "This is the beginning of the chat.");
+
+        dbRef.setValue(messagesHashMap);
     }
 }
