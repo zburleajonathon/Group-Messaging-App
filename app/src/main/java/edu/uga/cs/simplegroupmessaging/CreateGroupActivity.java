@@ -82,20 +82,10 @@ public class CreateGroupActivity extends AppCompatActivity {
         String email = user.getEmail();
         String userID = user.getUid();
 
-        /*dbRef = FirebaseDatabase.getInstance().getReference("Users").child(userID).child(chatID.toString());
-
-        //Create HashMap to store info into database with a single call
-        HashMap<String, String> userHashMap = new HashMap<>();
-        userHashMap.put("id", chatID.toString());
-
-        //add chatid to user's section of database
-        dbRef.setValue(userHashMap);*/
-
         dbRef = FirebaseDatabase.getInstance().getReference("Chats").child(chatID.toString());
 
         //Create HashMap to store info into database with a single call
         HashMap<String, String> chatsHashMap = new HashMap<>();
-        //chatsHashMap.put("id", chatID.toString());
         chatsHashMap.put("title", groupName);
 
         //add chatid and title to chat section of database
@@ -122,5 +112,10 @@ public class CreateGroupActivity extends AppCompatActivity {
                 }
             }
         });
+
+        dbRef = FirebaseDatabase.getInstance().getReference("Messages");
+
+        //add chatid to messages section
+        dbRef.setValue(chatID.toString());
     }
 }

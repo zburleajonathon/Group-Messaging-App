@@ -31,17 +31,18 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
     // The adapter must have a ViewHolder class to "hold" one item to show.
     class ChatsHolder extends RecyclerView.ViewHolder {
 
-        TextView title;
+        TextView chatView;
 
         public ChatsHolder( View itemView ) {
             super(itemView);
             final Context context = itemView.getContext();
 
-            title = itemView.findViewById(R.id.button);
-            title.setOnClickListener(new View.OnClickListener() {
+            chatView = itemView.findViewById(R.id.button);
+            chatView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, MessagingActivity.class);
+                    intent.putExtra("chatID", title);
                     context.startActivity(intent);
                 }
             });
@@ -86,7 +87,7 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
         */
         String chatItem = chats.get(position);
 
-        holder.title.setText(chatItem);
+        holder.chatView.setText(chatItem);
     }
 
     @Override

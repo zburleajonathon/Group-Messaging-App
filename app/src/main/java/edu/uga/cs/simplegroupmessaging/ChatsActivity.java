@@ -21,7 +21,7 @@ public class ChatsActivity extends AppCompatActivity {
     private RecyclerView.Adapter recyclerAdapter;
     Button createGroupButton;
 
-    private ArrayList<String> chatItems = new ArrayList<String>();
+    //private ArrayList<String> chatItems = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
