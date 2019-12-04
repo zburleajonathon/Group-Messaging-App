@@ -64,6 +64,7 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
                 //Chats could be empty if the user is new
                 try {
                     data = dataSnapshot.getValue().toString();
+                    chats.clear();
                     System.out.println(data);
                     setChatName(chatChecker(data, email));
                 }
@@ -145,7 +146,6 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // Get Post object and use the values to update the UI
                     data = dataSnapshot.getValue().toString();
-                    chats.clear();
                     //System.out.println("Chat Data: " + data);
                     title = getTitle(data);
                     chats.add(title);
