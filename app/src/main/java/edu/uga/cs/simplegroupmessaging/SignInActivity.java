@@ -63,6 +63,13 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * signIn: signs the user into their account if they exist in the Firebase Authentication system,
+     * otherwise it tells the user that they do not have an account.
+     *
+     * @param email
+     * @param password
+     */
     public void signIn(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

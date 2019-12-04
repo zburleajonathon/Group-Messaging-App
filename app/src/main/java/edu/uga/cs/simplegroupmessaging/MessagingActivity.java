@@ -72,6 +72,9 @@ public class MessagingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * sendMessage: adds the message the user sends to the database
+     */
     private void sendMessage() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String email = user.getEmail();

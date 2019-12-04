@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * signIn: if the user is in the Firebase Authentication system it will sign them in and move to
+     * their chats page, otherwise the user is informed that they do not have an account
+     *
+     * @param email
+     * @param password
+     */
     public void signIn(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

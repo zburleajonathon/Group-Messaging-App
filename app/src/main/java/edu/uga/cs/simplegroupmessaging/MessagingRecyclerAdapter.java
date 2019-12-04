@@ -78,6 +78,14 @@ public class MessagingRecyclerAdapter extends RecyclerView.Adapter<MessagingRecy
         return messagesList.size();
     }
 
+    /**
+     * setMessages: parses the data from the data snapshot and adds chat messages to the
+     * messagesList arraylist; messagesList is then added to the recycler view and it is
+     * updated
+     *
+     * @param data
+     * @param email
+     */
     private void setMessages(String data, String email) {
         int start = 0;
         for(int i = 0; i < data.length(); i++) {

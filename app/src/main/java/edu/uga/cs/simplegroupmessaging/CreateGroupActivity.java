@@ -77,6 +77,12 @@ public class CreateGroupActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * createGroup: creates a new chat group for users to send messages in
+     *
+     * @param groupName
+     * @param groupMembers
+     */
     public void createGroup(String groupName, ArrayList<String> groupMembers){
         chatID = Math.round(Math.random() * 100000000);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

@@ -102,7 +102,13 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
         return chats.size();
     }
 
-    //method to check if the user is part of any chats
+    /**
+     * chatChecker: checks if the current user is part of any chats in the database
+     *
+     * @param data
+     * @param email
+     * @return
+     */
     private ArrayList<String> chatChecker(String data, String email) {
         String chatID = "";
         int start = 1; //start after the {
@@ -134,7 +140,12 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
         return chatIDs;
     }
 
-    //method to read the json chat name from the database
+    /**
+     * setChatName: reads chat titles from the database and sends them to an arraylist that
+     * is then added to the recycler view and it is updated
+     *
+     * @param chatIDs
+     */
     private void setChatName(ArrayList<String> chatIDs) {
         //read from chats data base to get the title of the chats
         for(int i =0; i < chatIDs.size(); i++) {
@@ -146,7 +157,6 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // Get Post object and use the values to update the UI
                     data = dataSnapshot.getValue().toString();
-                    //System.out.println("Chat Data: " + data);
                     title = getTitle(data);
                     chats.add(title);
                     System.out.println("Chats: " + chats);
@@ -161,7 +171,13 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
         }
     }
 
-    //method to get the title of the chat
+    /**
+     * getTitle: a helper method to make parsing the title of the chat from the data snapshot
+     * easy and separate it from the rest of the code
+     *
+     * @param data
+     * @return
+     */
     private String getTitle(String data) {
         int start = 0;
         String title = "";

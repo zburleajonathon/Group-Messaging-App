@@ -81,6 +81,13 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * signUp: adds the user's info to the firebase authentication for signing in and adds the
+     * users info to the database
+     *
+     * @param email
+     * @param pass
+     */
     public void signUp(final String email, String pass){
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -128,6 +135,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * signIn: signs the user in with Firebase Authentication if the user already has an account
+     *
+     * @param email
+     * @param password
+     */
     public void signIn(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
