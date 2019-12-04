@@ -77,7 +77,6 @@ public class MessagingActivity extends AppCompatActivity {
         String email = user.getEmail();
 
         dbRef = FirebaseDatabase.getInstance().getReference("Messages").child(chatID).child(Integer.toString(messageID));
-        messageID++;
 
         //Create HashMap to store info into database with a single call
         HashMap<String, String> messagesHashMap = new HashMap<>();

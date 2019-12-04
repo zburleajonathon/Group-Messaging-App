@@ -49,13 +49,9 @@ public class MessagingRecyclerAdapter extends RecyclerView.Adapter<MessagingRecy
         ValueEventListener memberListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //Messages could be empty if the chat is new
-                //try {
-                    data = dataSnapshot.getValue().toString();
-                    messagesList.clear();
-                    setMessages(data, email);
-                //}
-                //catch(NullPointerException e) {}
+                data = dataSnapshot.getValue().toString();
+                messagesList.clear();
+                setMessages(data, email);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -72,11 +68,6 @@ public class MessagingRecyclerAdapter extends RecyclerView.Adapter<MessagingRecy
 
     @Override
     public void onBindViewHolder(MessagingRecyclerAdapter.MessagesHolder holder, int position ) {
-        /*
-        if( getItemCount() <= 0 && position >= getItemCount() ) {
-            return;
-        }
-        */
         String messageItem = messagesList.get(position);
 
         holder.message.setText(messageItem);
