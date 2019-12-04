@@ -61,11 +61,13 @@ public class ChatsRecyclerAdapter extends RecyclerView.Adapter<ChatsRecyclerAdap
         ValueEventListener memberListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!chats.isEmpty()) {
+                    chats.clear();
+                    notifyDataSetChanged();
+                }
                 //Chats could be empty if the user is new
                 try {
                     data = dataSnapshot.getValue().toString();
-                    chats.clear();
-                    System.out.println(data);
                     setChatName(chatChecker(data, email));
                 }
                 catch(NullPointerException e) {}

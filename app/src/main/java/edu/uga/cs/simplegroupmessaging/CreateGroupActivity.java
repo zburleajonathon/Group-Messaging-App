@@ -1,5 +1,6 @@
 package edu.uga.cs.simplegroupmessaging;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -101,17 +102,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         }
 
         //add members under chatid in members section of database
-        dbRef.setValue(membersHashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Intent intent = new Intent(CreateGroupActivity.this, MessagingActivity.class);
-                    System.out.println("HashMap set task is successful.");
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
+        dbRef.setValue(membersHashMap);
 
         dbRef = FirebaseDatabase.getInstance().getReference("Messages").child(chatID.toString()).child("0");
 
@@ -119,6 +110,15 @@ public class CreateGroupActivity extends AppCompatActivity {
         messagesHashMap.put("email", "system");
         messagesHashMap.put("message", "This is the beginning of the chat.");
 
-        dbRef.setValue(messagesHashMap);
+        dbRef.setValue(messagesHashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Intent intent = new Intent(CreateGroupActivity.this, MessagingActivity.class);
+                    intent.putExtra("chatID", chatID.toString());
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }
