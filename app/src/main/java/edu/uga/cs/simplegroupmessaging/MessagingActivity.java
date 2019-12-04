@@ -32,7 +32,7 @@ public class MessagingActivity extends AppCompatActivity {
     private EditText chatText;
     private String chatID;
 
-    private static int messageID = 1;
+    private int messageID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class MessagingActivity extends AppCompatActivity {
         Button sendButton = findViewById(R.id.ButtonSendView);
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                messageID = recyclerAdapter.getItemCount();
                 sendMessage();
                 chatText.setText(null);
             }
